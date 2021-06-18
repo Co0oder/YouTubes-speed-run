@@ -3,14 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './store/reducers';
+import { reducers, metaReducers } from './store/rootReducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { SharedModule } from '@shared/shared.module';
 import { YouTubeApi } from '@services/youtube.service';
 import { MainModule } from './core/pages/main/main.module';
 import { FormsModule } from '@angular/forms';
-import { VideoIdPipe } from './core/pipes/video-id.pipe';
+import { EffectsModule } from '@ngrx/effects';
+import { VideosTreeEffects } from '@store/videos-tree/effects';
+import { TreeBuilderService } from '@services/tree-builder.service';
 
 @NgModule({
   declarations: [
@@ -21,10 +23,11 @@ import { VideoIdPipe } from './core/pipes/video-id.pipe';
     SharedModule,
     FormsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
+    EffectsModule.forRoot([VideosTreeEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     MainModule,
   ],
-  providers: [YouTubeApi],
+  providers: [YouTubeApi, TreeBuilderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

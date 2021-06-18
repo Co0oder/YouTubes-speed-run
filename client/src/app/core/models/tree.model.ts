@@ -10,9 +10,12 @@ export class Tree {
     public depth: number = 0;
     constructor(public root : Node) {}
 
-    public addNode(childKey: string, rootKey: string): void {
+    public addNode(childKey: string, rootKey: string): Node | null {
         const node = new Node(childKey);
-        if(!this.nodesList.has(childKey)){
+        if(this.nodesList.has(childKey)){
+            return null;
+        }
+        else{
             this.nodesList.add(childKey)
             const parent = rootKey ? this.findBFS(rootKey) : null;
 
@@ -22,12 +25,14 @@ export class Tree {
                     this.depth = node.generation;
                 }
                 parent.children.push(node);
+                return node;
             }
             else if(!this.root){
                 this.root = node;
+                return node;
             }
             else {
-                return;
+                return null;
             }
         }
     }

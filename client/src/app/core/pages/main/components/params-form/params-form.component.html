@@ -8,4 +8,4 @@
 	<input [(ngModel)]="stopWord" type="text" placeholder="КВН" required #wordModel="ngModel">
     <!-- <span class="hint" *ngIf="wordModel.errors?.required">Required</span> -->
 </div>
-<button class="btn" (click)="applay()" [disabled]="linkModel.errors?.required || wordModel.errors?.required">Run</button>
+<button class="btn" (click)="apply()" [disabled]="linkModel.errors?.required || wordModel.errors?.required">Run</button>

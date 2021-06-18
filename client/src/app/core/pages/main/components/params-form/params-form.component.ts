@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { VideoIdPipe } from 'src/app/core/pipes/video-id.pipe';
 import { ISearchParams } from '../../main.interface';
 
 @Component({
@@ -11,13 +12,14 @@ export class ParamsFormComponent {
   public link = '';
   public stopWord = '';
 
-  @Output() paramsApplayed = new EventEmitter<ISearchParams>();
+  @Output() paramsAppalled = new EventEmitter<ISearchParams>();
   
-  constructor() { }
+  constructor(private videoId: VideoIdPipe) { }
 
-  public applay(): void {
-    this.paramsApplayed.emit({
-      link: this.link,
+  public apply(): void {
+    const id = this.videoId.transform(this.link);
+    this.paramsAppalled.emit({
+      ids: [id],
       searchWord: this.stopWord
     })
   }

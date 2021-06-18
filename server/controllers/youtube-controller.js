@@ -2,6 +2,8 @@ const {google} = require('googleapis');
 const {TOKEN} = require('../config');
 const youtube = google.youtube('v3');
 
+
+
 async function searchRelatedVideo(id) {
 	const videoInfo = await youtube.search.list({
 		key: TOKEN,
@@ -10,7 +12,7 @@ async function searchRelatedVideo(id) {
 		type: 'video',
 		maxResults: 5
 	});
-	console.log(videoInfo.data.items[0].snippet.thumbnails)
+	
 	const relatedVideoList = videoInfo.data.items.map(item => ({
 		title: item.snippet.title, 
 		previewLowRes: item.snippet.thumbnails.default.url,

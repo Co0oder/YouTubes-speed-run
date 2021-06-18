@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as VideosTreeActions from './actions';
 
-export enum VideosTreeStoreFeelds {
+export enum VideosTreeStoreFields {
     NodesList = 'nodesList',
     CheckedVideos = 'CheckedVideos',
     NodesListLoadingStatus = 'NodesListLoadingStatus',
@@ -9,40 +9,46 @@ export enum VideosTreeStoreFeelds {
 }
 
 export interface VideosTreeState {
-    [VideosTreeStoreFeelds.NodesList] : Node[];
-    [VideosTreeStoreFeelds.CheckedVideos]: string[];
-    [VideosTreeStoreFeelds.NodesListLoadingStatus]: boolean;
-    [VideosTreeStoreFeelds.CurrentNodePointer]: Node | null;
+    [VideosTreeStoreFields.NodesList] : Node[];
+    [VideosTreeStoreFields.CheckedVideos]: string[];
+    [VideosTreeStoreFields.NodesListLoadingStatus]: boolean;
+    [VideosTreeStoreFields.CurrentNodePointer]: Node | null;
 }
 
 export const initialVideosTreeState: VideosTreeState = {
-    [VideosTreeStoreFeelds.NodesList] : [],
-    [VideosTreeStoreFeelds.CheckedVideos]: [],
-    [VideosTreeStoreFeelds.NodesListLoadingStatus]: false,
-    [VideosTreeStoreFeelds.CurrentNodePointer]: null
+    [VideosTreeStoreFields.NodesList] : [],
+    [VideosTreeStoreFields.CheckedVideos]: [],
+    [VideosTreeStoreFields.NodesListLoadingStatus]: false,
+    [VideosTreeStoreFields.CurrentNodePointer]: null
 }
 
-const VideosTreeReducer = createReducer(
+export const VideosTreeReducer = createReducer<VideosTreeState, Action>(
     initialVideosTreeState,
     on(
         VideosTreeActions.RequestRelatedVideo, 
         (state) => ({
             ...state,
-            [VideosTreeStoreFeelds.NodesListLoadingStatus]: true 
+            [VideosTreeStoreFields.NodesListLoadingStatus]: true 
         })
     ),
     on(
-        VideosTreeActions.ReletedVideoRequestSucced, 
-        (state, {payload}) => {
-            console.log(payload)
+        VideosTreeActions.RelatedVideoRequestSucceed, 
+        (state, {payload} : any) => {
+            console.log('result ', payload)
+            const nodes = payload;
+            const updatedNodesList = [
+                ...state[VideosTreeStoreFields.NodesList],
+                ...payload,
+            ];
             return { 
                 ...state,
-                [VideosTreeStoreFeelds.NodesListLoadingStatus]: false 
+                [VideosTreeStoreFields.NodesListLoadingStatus]: false,
+                [VideosTreeStoreFields.NodesList]: updatedNodesList,
             };
         }
     ),
 )
 
-export function reducer(state: VideosTreeState | undefined, action: Action) { 
+export function reducer(state: VideosTreeState, action: Action) : any{ 
     return VideosTreeReducer(state, action);
 }

@@ -7,9 +7,11 @@
       "@components/*": ["src/app/core/components/*"],
       "@services/*": ["src/app/core/services/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@constants/*": ["src/app/core/constants/*"]
+      "@constants/*": ["src/app/core/constants/*"],
+      "@store/*": ["src/app/store/*"]
     },
     "baseUrl": "./",
+    "strictPropertyInitialization": false,
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -29,6 +31,7 @@
     ]
   },
   "angularCompilerOptions": {
+    "strictPropertyInitialization": false,
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,

@@ -1,13 +1,14 @@
-import { Injectable } from "@angular/core";
 import { IRelatedVideosResponse } from "@interfaces/related-video.interface";
 import {createAction, props} from '@ngrx/store';
+import { Node } from "src/app/core/models/tree.model";
 import { ISearchParams } from "src/app/core/pages/main/main.interface";
 
+
 const VIDEO_TREE_ACTIONS = {
-	RELATED_VIDEOS_REQUESTED: '[VIDEO_TREE] Related Video Requested',
-    RELATED_VIDEOS_SUCCESS: '[VIDEO_TREE] Related Video Success',
-    RELATED_VIDEOS_FAILED: '[VIDEO_TREE] Related Video Failed',
-    VIDEO_NODE_SELECTED: '[VIDEO_TREE] Video Node Selected'
+	RELATED_VIDEOS_REQUESTED: `[VIDEOS_TREE] Related Video Requested`,
+    RELATED_VIDEOS_SUCCESS: `[VIDEOS_TREE] Related Video Success`,
+    RELATED_VIDEOS_FAILED: `[VIDEOS_TREE] Related Video Failed`,
+    VIDEO_NODE_SELECTED: `[VIDEOS_TREE] Video Node Selected`
 }
 
 export const RequestRelatedVideo = createAction(
@@ -15,9 +16,9 @@ export const RequestRelatedVideo = createAction(
     props<ISearchParams>()
 );
 
-export const ReletedVideoRequestSucced = createAction(
+export const RelatedVideoRequestSucceed = createAction(
     VIDEO_TREE_ACTIONS.RELATED_VIDEOS_SUCCESS,
-    props<IRelatedVideosResponse>()
+    props<{payload: Node[]}>()
 );
 
 export const RelatedVideoRequestFailed = createAction(
