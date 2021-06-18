@@ -10,16 +10,18 @@ async function searchRelatedVideo(id) {
 		type: 'video',
 		maxResults: 5
 	});
-
-	const relatedVideoList = await videoInfo.data.items.map(item => ({
+	console.log(videoInfo.data.items[0].snippet.thumbnails)
+	const relatedVideoList = videoInfo.data.items.map(item => ({
 		title: item.snippet.title, 
-		preview: item.snippet.thumbnails.default.url,
+		previewLowRes: item.snippet.thumbnails.default.url,
+		previewHighRes: item.snippet.thumbnails.standard.url,
 		id: item.id.videoId
 	}));
 	return {[id] : relatedVideoList}
 }
 
 async function getVideoInfo(req,res) {
+	console.log(req.body)
 	const { ids } = req.body;
 	if(!ids) {
 		res.status(422);

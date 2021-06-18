@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainComponent } from './main.component';
-import { VideosCollectionBlockComponent } from './components/videos-collection-block/videos-collection-block.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { VideosCollectionComponent } from './components/videos-collection/videos-collection.component';
+import { FormsModule } from '@angular/forms';
+import { VideoIdPipe } from '../../pipes/video-id.pipe';
+import { ParamsFormComponent } from './components/params-form/params-form.component';
 
 @NgModule({
   declarations: [
-    VideosCollectionBlockComponent,
+    MainComponent,
+    VideosCollectionComponent,
+    ParamsFormComponent,
   ],
   exports: [
     MainComponent,
@@ -14,7 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-  ]
+  ],
+  providers: [VideoIdPipe]
 })
 export class MainModule { }

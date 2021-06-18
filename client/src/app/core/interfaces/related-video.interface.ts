@@ -1,9 +1,10 @@
-export interface RelatedVideo{
+export interface IRelatedVideo{
 	id: string;
-	preview: string;
+	previewHighRes: string;
+	previewLowRes: string;
 	title: string
 }
 
 export interface IRelatedVideosResponse {
-	[key: string]: RelatedVideo[];
+	[key: string]: IRelatedVideo[];
 }

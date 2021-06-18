@@ -8,8 +8,8 @@ import { take } from "rxjs/operators";
 @Injectable()
 export class YouTubeApi{
 	constructor(private api: ApiService) {}
-	public getRelatedVideo(body: {ids: string[]}): Observable<IRelatedVideosResponse> {
-		return this.api.post<IRelatedVideosResponse,{ids: string[]}>(apiRoutes.relatedVideo, body)
+	public getRelatedVideo(ids:  string[]): Observable<IRelatedVideosResponse> {
+		return this.api.post<IRelatedVideosResponse,{ids: string[]}>(apiRoutes.relatedVideo, {ids})
 			.pipe(take(1));
 	}
 }

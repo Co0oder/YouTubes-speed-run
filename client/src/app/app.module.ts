@@ -9,7 +9,8 @@ import { environment } from '../environments/environment';
 import { SharedModule } from '@shared/shared.module';
 import { YouTubeApi } from '@services/youtube.service';
 import { MainModule } from './core/pages/main/main.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { VideoIdPipe } from './core/pipes/video-id.pipe';
 
 @NgModule({
   declarations: [
@@ -17,12 +18,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
     SharedModule,
-    MainModule,
+    FormsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    MainModule,
   ],
   providers: [YouTubeApi],
   bootstrap: [AppComponent]

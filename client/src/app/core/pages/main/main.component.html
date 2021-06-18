@@ -1,9 +1,5 @@
-<div class="form-control">
-	<label for="url">URL</label>
-	<input [(ngModel)]="url" type="text" placeholder="URL/VIDEO_ID"/>
-</div>
-<div class="form-control">
-	<label for="url">Stop word</label>
-	<input [(ngModel)]="stopWord" type="text" placeholder="КВН">
-</div>
-<button class="btn">Run</button>
+<app-params-form (paramsApplayed)="search($event)"></app-params-form>
+<!-- <ng-container *ngFor="let key of relatedVideosIds">
+	<app-videos-collection [videos]="relatedVideos[key]"></app-videos-collection>
+</ng-container> -->
+<app-videos-collection></app-videos-collection>

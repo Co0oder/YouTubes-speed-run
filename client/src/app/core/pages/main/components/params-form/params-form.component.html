@@ -1,0 +1,11 @@
+<div class="form-control">
+	<label for="url">URL</label>
+	<input [(ngModel)]="link" type="text" placeholder="URL/VIDEO_ID" required #linkModel="ngModel">
+    <!-- <span class="hint" *ngIf="linkModel.errors?.required">Required</span> -->
+</div>
+<div class="form-control">
+	<label for="url">Stop word</label>
+	<input [(ngModel)]="stopWord" type="text" placeholder="КВН" required #wordModel="ngModel">
+    <!-- <span class="hint" *ngIf="wordModel.errors?.required">Required</span> -->
+</div>
+<button class="btn" (click)="applay()" [disabled]="linkModel.errors?.required || wordModel.errors?.required">Run</button>
