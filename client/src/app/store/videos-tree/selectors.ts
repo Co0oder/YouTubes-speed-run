@@ -7,3 +7,8 @@ export const getVideosTreeList = createSelector(
 	selectVideosTreeState, 
 	(state: VideosTreeState): Node[] => state[VideosTreeStoreFields.NodesList]
 );
+
+export const getSearchWord = createSelector(
+	selectVideosTreeState, 
+	(state: VideosTreeState): string => state[VideosTreeStoreFields.SearchWord]
+);

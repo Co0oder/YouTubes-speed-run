@@ -13,17 +13,24 @@ async function searchRelatedVideo(id) {
 		maxResults: 5
 	});
 	
-	const relatedVideoList = videoInfo.data.items.map(item => ({
-		title: item.snippet.title, 
-		previewLowRes: item.snippet.thumbnails.default.url,
-		previewHighRes: item.snippet.thumbnails.standard.url,
-		id: item.id.videoId
-	}));
+	const relatedVideoList = videoInfo.data.items.map(item => {
+		try{
+			return ({
+					title: item.snippet.title, 
+					previewLowRes: item.snippet.thumbnails.default.url,
+					previewHighRes: item.snippet.thumbnails.standard.url,
+					id: item.id.videoId
+				})
+		}catch(err) {
+			return null;
+		}
+	}).filter(video => !!video);
+
 	return {[id] : relatedVideoList}
 }
 
 async function getVideoInfo(req,res) {
-	console.log(req.body)
+	console.log('Body ',req.body)
 	const { ids } = req.body;
 	if(!ids) {
 		res.status(422);

@@ -3,6 +3,7 @@ import * as VideosTreeActions from './actions';
 
 export enum VideosTreeStoreFields {
     NodesList = 'nodesList',
+    SearchWord = 'searchWord',
     CheckedVideos = 'CheckedVideos',
     NodesListLoadingStatus = 'NodesListLoadingStatus',
     CurrentNodePointer = 'currentNodePointer',
@@ -11,6 +12,7 @@ export enum VideosTreeStoreFields {
 export interface VideosTreeState {
     [VideosTreeStoreFields.NodesList] : Node[];
     [VideosTreeStoreFields.CheckedVideos]: string[];
+    [VideosTreeStoreFields.SearchWord]: string;
     [VideosTreeStoreFields.NodesListLoadingStatus]: boolean;
     [VideosTreeStoreFields.CurrentNodePointer]: Node | null;
 }
@@ -19,23 +21,25 @@ export const initialVideosTreeState: VideosTreeState = {
     [VideosTreeStoreFields.NodesList] : [],
     [VideosTreeStoreFields.CheckedVideos]: [],
     [VideosTreeStoreFields.NodesListLoadingStatus]: false,
-    [VideosTreeStoreFields.CurrentNodePointer]: null
+    [VideosTreeStoreFields.CurrentNodePointer]: null,
+    [VideosTreeStoreFields.SearchWord]: ''
 }
 
 export const VideosTreeReducer = createReducer<VideosTreeState, Action>(
     initialVideosTreeState,
     on(
         VideosTreeActions.RequestRelatedVideo, 
-        (state) => ({
-            ...state,
-            [VideosTreeStoreFields.NodesListLoadingStatus]: true 
-        })
+        (state, payload) => {
+            return {
+                ...state,
+                [VideosTreeStoreFields.NodesListLoadingStatus]: true,
+                ...(payload.searchWord ? {[VideosTreeStoreFields.SearchWord] : payload.searchWord} : {}) 
+            }
+        }
     ),
     on(
         VideosTreeActions.RelatedVideoRequestSucceed, 
         (state, {payload} : any) => {
-            console.log('result ', payload)
-            const nodes = payload;
             const updatedNodesList = [
                 ...state[VideosTreeStoreFields.NodesList],
                 ...payload,

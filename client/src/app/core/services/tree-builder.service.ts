@@ -23,6 +23,7 @@ export class TreeBuilderService {
 				for(let video of relatedNodes[key]){
 					const newNode = this.tree.addNode(video.id ,rootNode.key)
 					if(newNode){
+						newNode.data = video;
 						newNodes.push(newNode);
 					}
 				}

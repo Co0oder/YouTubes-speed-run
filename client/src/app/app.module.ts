@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { VideosTreeEffects } from '@store/videos-tree/effects';
 import { TreeBuilderService } from '@services/tree-builder.service';
+import { SearchWordService } from '@services/serch-word.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { TreeBuilderService } from '@services/tree-builder.service';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     MainModule,
   ],
-  providers: [YouTubeApi, TreeBuilderService],
+  providers: [YouTubeApi, TreeBuilderService, SearchWordService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

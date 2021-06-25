@@ -1,6 +1,9 @@
+import { IRelatedVideo } from "@interfaces/related-video.interface";
+
 export class Node {
     public generation: number = 0;
     public children: Node[] = [];
+    public data: IRelatedVideo;
 
 	constructor(public key: string) {}
 }

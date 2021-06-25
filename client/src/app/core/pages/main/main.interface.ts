@@ -1,4 +1,4 @@
 export interface ISearchParams {
     ids: string[];
-    searchWord: string;
+    searchWord?: string;
 }
