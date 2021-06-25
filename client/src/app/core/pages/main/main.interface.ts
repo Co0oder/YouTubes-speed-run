@@ -1,4 +1,8 @@
 export interface ISearchParams {
-    ids: string[];
-    searchWord?: string;
+    id: string;
+    searchWord: string;
+}
+
+export interface ISearchRelatedParams {
+    ids: string[]
 }

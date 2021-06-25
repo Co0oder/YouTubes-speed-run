@@ -29,8 +29,31 @@ async function searchRelatedVideo(id) {
 	return {[id] : relatedVideoList}
 }
 
+
 async function getVideoInfo(req,res) {
-	console.log('Body ',req.body)
+	const { id } = req.body;
+	if(!id) {
+		res.status(422);
+		return;
+	}
+	const videoData = await youtube.videos.list({
+		key: TOKEN,
+		part: 'snippet',
+		type: 'contentDetails',
+		id
+	});
+	const [videoItem] = videoData.data.items
+	const video = {
+		title: videoItem.snippet.title,
+		id: videoItem.id,
+		previewHighRes: videoItem.snippet.thumbnails.default.url,
+		previewLowRes: videoItem.snippet.thumbnails.standard.url
+	}
+	console.log(videoItem); 
+	res.status(200).json(video);
+}
+
+async function getRelatedVideos(req,res) {
 	const { ids } = req.body;
 	if(!ids) {
 		res.status(422);
@@ -45,4 +68,5 @@ async function getVideoInfo(req,res) {
 
 module.exports = {
 	getVideoInfo,
+	getRelatedVideos
 }

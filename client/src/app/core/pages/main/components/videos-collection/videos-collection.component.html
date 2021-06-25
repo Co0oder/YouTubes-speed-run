@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <ng-container *ngFor="let video of videos; index as i;">
+    <ng-container *ngFor="let video of video$ | async; index as i;">
         <div class="video-card {{i ? 'child' : 'parent'}}">
             <img src="{{i ? video.previewLowRes : video.previewHighRes}}" class="preview">
             <p class="title">"{{video.title}}"</p>

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IRelatedVideo, IRelatedVideosResponse } from '@interfaces/related-video.interface';
+import { IVideo, IRelatedVideosResponse } from '@interfaces/related-video.interface';
 import { Store } from '@ngrx/store';
 import { TreeBuilderService } from '@services/tree-builder.service';
 import { YouTubeApi } from '@services/youtube.service';
-import { RequestRelatedVideo } from '@store/videos-tree/actions';
+import { RequestRelatedVideo, StartSearch } from '@store/videos-tree/actions';
 import { getVideosTreeList } from '@store/videos-tree/selectors';
 import { VideoIdPipe } from '../../pipes/video-id.pipe';
 import { ISearchParams } from './main.interface';
@@ -27,8 +27,7 @@ export class MainComponent{
   
 
   public search(params: ISearchParams): void {
-    this.treeBuilder.initNewTree(params.ids[0])
-    this.store.dispatch(RequestRelatedVideo(params))
+    this.store.dispatch(StartSearch(params))
   }
 
 }

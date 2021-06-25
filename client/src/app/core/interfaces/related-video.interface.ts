@@ -1,4 +1,10 @@
-export interface IRelatedVideo{
+export enum LoadingStatus{
+	Loading,
+	Loaded,
+	Empty,
+	Errored
+}
+export interface IVideo{
 	id: string;
 	previewHighRes: string;
 	previewLowRes: string;
@@ -6,5 +12,5 @@ export interface IRelatedVideo{
 }
 
 export interface IRelatedVideosResponse {
-	[key: string]: IRelatedVideo[];
+	[key: string]: IVideo[];
 }

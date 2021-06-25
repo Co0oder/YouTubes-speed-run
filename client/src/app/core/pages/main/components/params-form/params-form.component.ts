@@ -19,7 +19,7 @@ export class ParamsFormComponent {
   public apply(): void {
     const id = this.videoId.transform(this.link);
     this.paramsAppalled.emit({
-      ids: [id],
+      id,
       searchWord: this.stopWord
     })
   }
