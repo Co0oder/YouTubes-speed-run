@@ -1,7 +1,8 @@
 import { IVideo } from '@interfaces/related-video.interface';
 import { Action, createReducer, on } from '@ngrx/store';
-import { IPointer, TreeNode } from 'src/app/core/models/tree.model';
+import { IPointer, ITreeNode, VideosTree } from 'src/app/core/models/tree.model';
 import * as VideosTreeActions from './actions';
+import { NodeColection } from './mock';
 
 export enum VideosTreeStoreFields {
     TreeNodesList = 'nodesList',
@@ -11,14 +12,14 @@ export enum VideosTreeStoreFields {
 }
 
 export interface VideosTreeState {
-    [VideosTreeStoreFields.TreeNodesList] : TreeNode<IVideo>[][];
+    [VideosTreeStoreFields.TreeNodesList] : ITreeNode<IVideo>[][];
     [VideosTreeStoreFields.SearchWord]: string;
     [VideosTreeStoreFields.CurrentPointer]: IPointer;
     [VideosTreeStoreFields.TargetPointer]: IPointer | null;
 }
 
 export const initialVideosTreeState: VideosTreeState = {
-    [VideosTreeStoreFields.TreeNodesList] : [[]],
+    [VideosTreeStoreFields.TreeNodesList] : NodeColection,
     [VideosTreeStoreFields.CurrentPointer]: {generation: 0, index: 0},
     [VideosTreeStoreFields.TargetPointer]: null,
     [VideosTreeStoreFields.SearchWord]: ''
@@ -40,24 +41,24 @@ export const VideosTreeReducer = createReducer<VideosTreeState, Action>(
         (state, payload) => {
             return { 
                 ...state,
-                [VideosTreeStoreFields.TreeNodesList]: [[payload.node]]
+                [VideosTreeStoreFields.TreeNodesList]: JSON.parse(JSON.stringify(payload.nodesList))
             };
         }
     ),
     on(
         VideosTreeActions.RelatedVideoRequestSucceed, 
-        (state, payload) => {
-            let nodesList = state[VideosTreeStoreFields.TreeNodesList];
-            let newGeneration = nodesList.pop() || []; 
-            console.log(payload.nodes)
-            newGeneration = [...newGeneration, ...payload.nodes];
-            nodesList.push(newGeneration);
-            return { 
-                ...state,
-                [VideosTreeStoreFields.TreeNodesList]: nodesList
-            };
-        }
+        (state, payload) => ({ 
+            ...state,
+            [VideosTreeStoreFields.TreeNodesList]: JSON.parse(JSON.stringify(payload.nodes))
+        })
     ),
+    on(
+        VideosTreeActions.ChangePointer,
+        (state,payload) => ({
+            ...state,
+            [VideosTreeStoreFields.CurrentPointer]: payload.pointer
+        })
+    )
 )
 
 export function reducer(state: VideosTreeState, action: Action) : any{ 

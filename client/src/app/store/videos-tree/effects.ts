@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { IVideo } from '@interfaces/related-video.interface';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { SearchWordService } from '@services/serch-word.service';
 import { TreeBuilderService } from '@services/tree-builder.service';
 import { YouTubeApi } from '@services/youtube.service';
 import {State} from '@store/rootReducer';
-import { from, of } from 'rxjs';
 import { map, switchMap, withLatestFrom} from 'rxjs/operators';
 import { RelatedVideoRequestSucceed, RequestRelatedVideo, SearchFinished, StartSearch, StartSearchSucceed } from './actions';
 import { getSearchWord } from './selectors';
@@ -50,14 +50,14 @@ export class VideosTreeEffects {
 			switchMap((props) => 
 				this.youTubeService.getVideoInfo(props.id).pipe(
 					switchMap((res) => {
-						const node = this.treeBuilder.initNewTree(res);
+						const nodesList = this.treeBuilder.initNewTree(res);
 						const StopWordVideoKey =  res.title.toLocaleLowerCase()
 							.includes(props.searchWord.toLocaleLowerCase()) ? res.id : null;
 						if (StopWordVideoKey) {
-							return [SearchFinished({node})];
+							return [SearchFinished({node: nodesList[0][0]})];
 						}
 						return  [
-							StartSearchSucceed({node}),
+							StartSearchSucceed({nodesList}),
 							RequestRelatedVideo({ids: [res.id]})
 						];
 					})

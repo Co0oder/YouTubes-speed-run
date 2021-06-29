@@ -1,6 +1,6 @@
 import { IRelatedVideosResponse, IVideo } from "@interfaces/related-video.interface";
 import {createAction, props} from '@ngrx/store';
-import { TreeNode } from "src/app/core/models/tree.model";
+import { IPointer, ITreeNode } from "src/app/core/models/tree.model";
 import { ISearchParams, ISearchRelatedParams } from "src/app/core/pages/main/main.interface";
 
 
@@ -12,7 +12,8 @@ const VIDEO_TREE_ACTIONS = {
 	RELATED_VIDEOS_REQUESTED: '[VIDEOS_TREE] Related Video Requested',
     RELATED_VIDEOS_SUCCESS: '[VIDEOS_TREE] Related Video Success',
     RELATED_VIDEOS_FAILED: '[VIDEOS_TREE] Related Video Failed',
-    VIDEO_NODE_SELECTED: '[VIDEOS_TREE] Video TreeNode Selected'
+    VIDEO_NODE_SELECTED: '[VIDEOS_TREE] Video TreeNode Selected',
+    CHANGE_POINTER: '[VIDEOS_TREE] Change Pointer'
 }
 
 
@@ -23,7 +24,7 @@ export const StartSearch = createAction(
 
 export const  StartSearchSucceed = createAction(
     VIDEO_TREE_ACTIONS.START_SEARCH_SUCCESS,
-    props<{node: TreeNode<IVideo>}>()
+    props<{nodesList: ITreeNode<IVideo>[][]}>()
 );
 
 export const  StartSearchFailed = createAction(
@@ -33,7 +34,7 @@ export const  StartSearchFailed = createAction(
 
 export const  SearchFinished = createAction(
     VIDEO_TREE_ACTIONS.SEARCH_FINISHED,
-    props<{node: TreeNode<IVideo>}>()
+    props<{node: ITreeNode<IVideo>}>()
 )
 
 
@@ -44,7 +45,7 @@ export const RequestRelatedVideo = createAction(
 
 export const RelatedVideoRequestSucceed = createAction(
     VIDEO_TREE_ACTIONS.RELATED_VIDEOS_SUCCESS,
-    props<{nodes: TreeNode<IVideo>[]}>()
+    props<{nodes: ITreeNode<IVideo>[][]}>()
 );
 
 export const RelatedVideoRequestFailed = createAction(
@@ -55,4 +56,9 @@ export const RelatedVideoRequestFailed = createAction(
 export const VideoTreeNodeSelected =  createAction(
     VIDEO_TREE_ACTIONS.VIDEO_NODE_SELECTED,
     props<any>()
+)
+
+export const ChangePointer = createAction(
+    VIDEO_TREE_ACTIONS.CHANGE_POINTER,
+    props<{pointer: IPointer}>()
 )

@@ -1,46 +1,41 @@
 import { Injectable } from "@angular/core";
 import { IRelatedVideosResponse, IVideo, LoadingStatus } from "@interfaces/related-video.interface";
-import { TreeNode, Tree } from "../models/tree.model";
+import { ITreeNode, VideosTree } from "../models/tree.model";
 
 @Injectable({providedIn: 'root'})
 export class TreeBuilderService {
-	private tree: Tree;
 
-	public initNewTree(node: IVideo) {
-		const rootNode: TreeNode<IVideo> = {
-            children: [],
-            data: node,
-            generation : 0,
-            status : LoadingStatus.Loaded
-        };
-		rootNode.data = node;
-		this.tree = new Tree(rootNode);
-		return this.tree.root;
+	private tree: VideosTree;
+
+	public initNewTree(data: IVideo): ITreeNode<IVideo>[][]{
+		const rootNode = this.treeNodeFactory(data);
+		this.tree = new VideosTree();
+		this.tree.addTreeNode(rootNode);
+		return this.tree.NodeColection;
 	}
 
-	public addTreeNodes(relatedTreeNodes: IRelatedVideosResponse): TreeNode<IVideo>[] {
-		let newTreeNodes: TreeNode<IVideo>[] = []
-		for(let key in relatedTreeNodes){
-			const rootTreeNode = this.tree.findBFS(key);
-			if(!rootTreeNode){
+	public addTreeNodes(videos: IRelatedVideosResponse): ITreeNode<IVideo>[][] {
+		for(const rootId in videos){
+			const rootNode = this.tree.findBFSById(rootId);
+			if(!rootNode){
 				continue;
 			}
-			else{
-				for(let video of relatedTreeNodes[key]){
-					const node: TreeNode<IVideo> = {
-						children: [],
-						data: video,
-						generation: 0,
-						status: LoadingStatus.Loaded
-					}
-					const newTreeNode = this.tree.addTreeNode(node ,rootTreeNode)
-					if(newTreeNode){
-						newTreeNode.data = video;
-						newTreeNodes.push(node);
-					}
+			videos[rootId].forEach(
+				video => {
+					const childNode = this.treeNodeFactory(video);
+					this.tree.addTreeNode(childNode,rootNode);
 				}
-			}
+			)
 		}
-		return newTreeNodes;
+		return this.tree.NodeColection;
+	}
+
+	private treeNodeFactory(data: IVideo): ITreeNode<IVideo> {		
+		return {
+				children: [],
+				data,
+				generation : 0,
+				status : LoadingStatus.Loaded
+		};
 	}
 };
